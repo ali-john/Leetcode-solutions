@@ -1,14 +1,16 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        out = []
-        for i in range(len(nums)):
-            p = nums[i]
-            for j in range(i+1,len(nums)):
-                q = nums[j]
-                if (p+q) == target:
-                    out.append(i)
-                    out.append(j)
-        return out
 
-        
+        output = []
+        table = {}
+
+        for i,num in enumerate(nums):
+            if table.get(target-num,-1)!=-1:
+                output.append(i)
+                output.append(table[target-num])
+                break
+            table[num] = i
+            
+        return output
+
         
