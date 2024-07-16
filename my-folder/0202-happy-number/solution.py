@@ -1,22 +1,27 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        squares = []
-        output = True
+
+        def getSum(num):
+            total = 0
+
+            while num:
+                digit = num%10
+                total+= digit*digit
+                num = (num//10)
+            return total
+
+
+        slow = n
+        fast = n
 
         while True:
-            digits = [int(d) for d in str(n)]
-            s=0
-            for i in range(len(digits)):
-                s = s+ (digits[i] ** 2)
-            n = s
-            if sum(digits)==1:
+            slow = getSum(slow)
+            fast = getSum(getSum(fast))
+
+            if fast==slow:
                 break
-            if s in squares: # pattern repeats
-                output = False
-                break
-            squares.append(s)
+        return slow==1
         
-        return output
 
         
 
