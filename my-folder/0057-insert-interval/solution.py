@@ -1,20 +1,33 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        intervals.append(newInterval)
-        sorted_list = sorted(intervals,key=lambda x:x[0])
-        output = []
+
         i = 0
-        while(i<len(sorted_list)):
-            start = i
-            max_end = sorted_list[i][1]
-            while i+1<len(sorted_list) and sorted_list[i+1][0]<=max_end:
-                max_end = max(max_end,sorted_list[i+1][1])
-                i+=1
-            l = []
-            l.append(sorted_list[start][0])
-            l.append(max_end)
-            output.append(l)
+        merged = []
+        while i<len(intervals) and intervals[i][1]<newInterval[0]:
+            merged.append(intervals[i])
             i+=1
-        return output
+        
+
+        # merge all overlapping intervals
+
+        while i<len(intervals) and intervals[i][0]<=newInterval[1]:
+            newInterval[0] = min(intervals[i][0],newInterval[0])
+            newInterval[1] = max(intervals[i][1],newInterval[1])
+            i+=1
+
+        merged.append(newInterval)
+        while i<len(intervals):
+            merged.append(intervals[i])
+            i+=1
+        
+        return merged
+        
+
+
+        
+
+
+
+        
 
         
