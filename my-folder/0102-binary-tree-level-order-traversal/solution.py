@@ -23,7 +23,6 @@ class Solution:
                 if root.right is not None:
                     q.append(root.right)
             output.append(levels)
-        
         return output
 
 
