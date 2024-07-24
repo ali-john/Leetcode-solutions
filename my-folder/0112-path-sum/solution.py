@@ -5,25 +5,15 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-
-    def getSum(self,root,target,upto,dec):
-        if root is None:
-            return
-
-        root.val = root.val + upto
-        val = root.val
-        if root.left is None and root.right is None and val==target:
-            dec.append(1)
-        self.getSum(root.left,target,val,dec)
-        self.getSum(root.right,target,val,dec)
-
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
-        dec = []
-        self.getSum(root,targetSum,0,dec)
-        if len(dec)>0:
-            return True
-        else:
+        if not root:
             return False
+        
+        if root.val==targetSum and root.left is None and root.right is None:
+            return True
+        
+
+        return self.hasPathSum(root.right,targetSum-root.val) or self.hasPathSum(root.left,targetSum-root.val)
         
         
     
