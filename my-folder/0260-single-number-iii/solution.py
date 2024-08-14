@@ -1,20 +1,20 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> List[int]:
-        result = 0
+        xor = 0
         for num in nums:
-            result^=num
+            xor^=num
+        
         diff_bit = 1
-        while not (result & diff_bit):
+        while not (diff_bit&xor):
             diff_bit = diff_bit<<1
-        a, b = 0, 0
+
+        a,b = 0, 0 
         for num in nums:
-            if num&diff_bit:
-                a ^= num
+            if diff_bit&num:
+                a^=num
             else:
                 b^=num
         return [a,b]
-        
-
         
 
         
