@@ -1,12 +1,14 @@
 class Solution:
     def doesAliceWin(self, s: str) -> bool:
         vowels = ['a','e','i','o','u']
-        vc = 0
-        for string in s:
-            if string in vowels:
-                vc+=1
-        if vc==0:
+        count = 0
+        for char in s:
+            if char in vowels:
+                count+=1
+        
+        if count==0:
             return False
         else:
             return True
+
 
