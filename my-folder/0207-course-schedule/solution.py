@@ -1,50 +1,28 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-
-        graph = {}
-        if len(prerequisites)==0:
-            return True
-        for c1,c2 in prerequisites:
-            if c1 not in graph:
-                graph[c1] = []
-            if c2 not in graph:
-                graph[c2] = []
+        graph = defaultdict(list)
+        in_degree = [0]*numCourses
+        for c1, c2 in prerequisites:
             graph[c1].append(c2)
+            in_degree[c2]+=1
         
-        visited = set()
-        def dfs(node):
-            if graph[node]==[]:
-                return True
-            if node in visited:
-                return False
-            
-            visited.add(node)
-            for pre in graph[node]:
-                if not dfs(pre):
-                    return False
-            visited.remove(node)
-            graph[node] = []
-            return True
-        
-        keys = list(graph.keys())
-        for course in keys:
-            if not dfs(course):
-                return False
-        return True
-        
-        
+        sources = []
+        for i in range(len(in_degree)):
+            if in_degree[i]==0:
+                sources.append(i)
+        schedule = []
+        while sources:
+            vertex = sources.pop(0)
+            schedule.append(vertex)
+            for child in graph[vertex]:
+                in_degree[child]-=1
+                if in_degree[child]==0:
+                    sources.append(child)
+    
+        return len(schedule)==numCourses
 
 
 
-            
-            
-
-
-
-            
-                    
-            
-        return not(bfs(graph))
 
 
             
