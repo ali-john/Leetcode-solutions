@@ -1,32 +1,28 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        graph = {c:[] for c in range(numCourses)}
-        for c1,c2 in prerequisites:
-            graph[c1].append(c2)
+        graph = defaultdict(list)
+        in_degree = [0]*numCourses
+        for c1, c2 in prerequisites:
+            graph[c2].append(c1)
+            in_degree[c1]+=1
         
-        visited, cycle = set(), set()
-        output = []
-
-        def dfs(crs):
-            if crs in visited:
-                return True
-            if crs in cycle:
-                return False
-            cycle.add(crs)
-            for pre in graph[crs]:
-                if not dfs(pre):
-                    return False
-            visited.add(crs)
-            cycle.remove(crs)
-            output.append(crs)
-            return True
-        
-        for course in list(graph.keys()):
-            if dfs(course) == False:
-                return []
-        return output
-
-            
+        sources = []
+        for i in range(len(in_degree)):
+            if in_degree[i]==0:
+                sources.append(i)
+        schedule = []
+        while sources:
+            vertex = sources.pop(0)
+            schedule.append(vertex)
+            for child in graph[vertex]:
+                in_degree[child]-=1
+                if in_degree[child]==0:
+                    sources.append(child)
+    
+        if len(schedule)==numCourses:
+            return schedule
+        else:
+            return []
 
 
             
