@@ -1,16 +1,13 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-
         output = []
-        table = {}
+        table = defaultdict(int)
 
         for i,num in enumerate(nums):
-            if table.get(target-num,-1)!=-1:
+            if target-num in table:
                 output.append(i)
                 output.append(table[target-num])
-                break
-            table[num] = i
+                return output
             
+            table[num] = i
         return output
-
-        
