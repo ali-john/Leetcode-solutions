@@ -1,45 +1,15 @@
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        def search(arr,x):
-            left = 0
-            right = len(arr)-1
+        # sliding window O(n) solution https://youtu.be/RRGvNi-B0RA?si=c2u--GfO40TAtgGH
 
-            while left<=right:
-                mid = left + (right - left) // 2
-                if arr[mid]==x:
-                    return mid
-                if arr[mid]>x:
-                    right = mid-1
-                else:
-                    left = mid+1
-            if left>0:
-                return left-1
-            else:
-                return left
-        
-        index = search(arr,x)
-        windowStart, windowEnd = index, index+1
-        output = []
-        while k:
-            k-=1
-            if windowStart>=0 and windowEnd<len(arr):
-                distS = abs(x - arr[windowStart])
-                distE = abs(x-arr[windowEnd])
+        abs_diff = list(map(lambda n:abs(n-x),arr))
+        min_diff_index = 0
+        min_diff = sum_total = sum(abs_diff[0:k])
+        for i in range(1,len(arr)-k+1):
+            sum_total = abs_diff[i+k-1] + sum_total - abs_diff[i-1]
+            if sum_total<min_diff:
+                min_diff_index = i
+                min_diff = sum_total
+        return arr[min_diff_index:min_diff_index+k]
 
-                if distS<=distE:
-                    output.insert(0,arr[windowStart])
-                    windowStart-=1
-                else:
-                    output.append(arr[windowEnd])
-                    windowEnd+=1
-            elif windowStart>=0:
-                output.insert(0,arr[windowStart])
-                windowStart-=1
-            elif windowEnd<len(arr):
-                output.append(arr[windowEnd])
-                windowEnd+=1
-        return output
 
-        
-
-        
