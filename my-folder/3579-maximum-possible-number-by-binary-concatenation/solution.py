@@ -1,14 +1,12 @@
 class Solution:
     def maxGoodNumber(self, nums: List[int]) -> int:
-    
-        output = max(
-           int (bin(nums[0])[2:]+ bin(nums[1])[2:] + bin(nums[2])[2:],2),
-           int (bin(nums[0])[2:]+ bin(nums[2])[2:] + bin(nums[1])[2:],2),
-           int (bin(nums[1])[2:]+ bin(nums[0])[2:] + bin(nums[2])[2:],2),
-           int (bin(nums[1])[2:]+ bin(nums[2])[2:] + bin(nums[0])[2:],2),
-           int (bin(nums[2])[2:]+ bin(nums[0])[2:] + bin(nums[1])[2:],2),
-           int (bin(nums[2])[2:]+ bin(nums[1])[2:] + bin(nums[0])[2:],2)
+        max_num = 0
+        for p in permutations(nums):
+            n1 = bin(p[0])[2:]
+            n2 = bin(p[1])[2:]
+            n3 = bin(p[2])[2:]
+            max_num = max(max_num, int(n1+n2+n3,2))
+        return max_num
 
-        )
-        
-        return output
+    
+       
