@@ -1,16 +1,18 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        # two pointers approach
-        right = 1
         left = 1
+        right = 1
+        prev = nums[0]
 
         while right<len(nums):
-            if nums[right]!=nums[left-1]:
+            while right<len(nums) and nums[right]==prev:
+                right+=1
+            if right<len(nums):
+                temp = nums[left]
                 nums[left] = nums[right]
+                nums[right]=temp
+                prev = nums[left]
                 left+=1
-            right+=1
+                right+=1
         return left
-         
-
-
-        
+            
