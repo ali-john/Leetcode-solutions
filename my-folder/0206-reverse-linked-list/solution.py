@@ -8,11 +8,14 @@ class Solution:
         
         prev = None
         nextPtr = head
-
+        
         while head is not None:
             nextPtr = head.next
             head.next = prev
             prev = head
             head = nextPtr
         return prev
-        
+            
+            
+
+
