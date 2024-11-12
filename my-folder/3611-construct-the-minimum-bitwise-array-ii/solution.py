@@ -6,7 +6,6 @@ class Solution:
 
         for i in range(n):
             max_num = bin(nums[i])[2:]
-            print(max_num)
             for j in range(len(max_num)-1,-1,-1):
                 if list(max_num)[j]=='1':
                     new_num = list(max_num)
