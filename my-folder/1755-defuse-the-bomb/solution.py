@@ -3,7 +3,6 @@ class Solution:
         n = len(code)
 
         output = [0]*n
-        print(output)
         if k==0:
             return output
         
