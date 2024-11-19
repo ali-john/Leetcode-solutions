@@ -3,32 +3,30 @@ class Solution:
         """
         Maintain a constant window of length k and look for maximum sum
         """
+        table = defaultdict(int)
         n = len(nums)
-        table = Counter(nums[0:k])
         left = 0
+
+        curr_sum = 0
         max_sum = 0
-        curr_sum = sum(nums[0:k])
-        
-        if len(table)==k:
-            max_sum = max(max_sum,curr_sum)
-        for right in range(k,n):
-            curr_sum += nums[right]
-            curr_sum-=nums[left]
+        for right in range(n):
+            curr_sum+=nums[right]
 
             table[nums[right]]+=1
-            table[nums[left]]-=1
-            if table[nums[left]]<=0:
-                del table[nums[left]]
+
+            if right>=k:
+                table[nums[left]]-=1
+                curr_sum-=nums[left]
+                if table[nums[left]]==0:
+                    del table[nums[left]]
+                left+=1
             
             if len(table)==k:
-                max_sum = max(max_sum,curr_sum)
-    
-            left+=1
-
+                max_sum = max(curr_sum,max_sum)
         return max_sum
-                
 
-            
+
+
 
 
 
