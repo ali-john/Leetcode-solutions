@@ -1,36 +1,35 @@
 class Solution:
     def shortestDistanceAfterQueries(self, n: int, queries: List[List[int]]) -> List[int]:
-        output = []
-        graph = [[] for _ in range(n)]
-        for i in range(n - 1):
-            graph[i].append((i + 1, 1))
+        graph = {i:[] for i in range(n)}
+        for i in range(n-1):
+            graph[i].append((i+1,1))
 
-        def dj():
-            distance = [float("inf")]*n
-            distance[0] = 0
-            min_heap = [(0,0)]
-            while min_heap:
-                dist, node = heapq.heappop(min_heap)
-                if dist>distance[node]:
+        
+        def return_shortest():
+            # returns shortest path after each query
+            distances = [float('inf')]*n
+            distances[0]=0
+            heap = [(0,0)]
+
+            while heap:
+                node,dist = heapq.heappop(heap)
+                if node==n-1:
+                    return dist
+                    
+                if dist>distances[node]:
                     continue
                 
-                for v,w in graph[node]:
-                    new_dist = dist+w
-                    if new_dist<distance[v]:
-                        distance[v] = new_dist
-                        heapq.heappush(min_heap,(new_dist,v))
-            return distance[n-1]
+                for u,d in graph[node]:
+                    if dist+d<distances[u]:
+                        distances[u] = dist+d
+                        heapq.heappush(heap,(u,dist+d))
+                
+            return distances[n-1]
 
-        for start,end in queries:
+
+        answer = [0]*len(queries)
+        for i,(start,end) in enumerate(queries):
             graph[start].append((end,1))
-            d = dj()
-            output.append(d)
-        return output
-
-
-            
-        
-
-
-        
-        
+            dist = return_shortest()
+            answer[i]= dist
+        return answer
