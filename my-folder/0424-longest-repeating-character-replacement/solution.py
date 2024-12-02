@@ -1,40 +1,40 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
+        n = len(s)
+        left = 0
+        table = defaultdict(int)
+        st = set()
+        output = -1
+        for right in range(n):
+            table[s[right]]+=1
+            st.add(s[right])
 
-        window_start = 0
-        window_end = 0
-        output = float("-inf")
-        hash_table = {}
-        maxRepeatedCount = 0
-        while window_end<len(s):
-            endChr = s[window_end]
-            hash_table[endChr] = hash_table.setdefault(endChr,0)+1
-            maxRepeatedCount = max(maxRepeatedCount,hash_table[endChr])
-
-            if (window_end - window_start+1 - maxRepeatedCount > k):
-                startChr = s[window_start]
-                hash_table[startChr]-=1
-                window_start+=1
+            max_occurance = 0
+            max_char = ''
+            for char in st:
+                if table[char]>max_occurance:
+                    max_occurance = table[char]
+                    max_char = char
             
-            output = max(output,(window_end-window_start)+1)
-            window_end+=1
+            while (right-left+1 - max_occurance > k):
+                table[s[left]]-=1
+                if table[s[left]]==max_char:
+                    max_occurance-=1
+
+                if table[s[left]]==0:
+                    del table[s[left]]
+                    st.remove(s[left])
+                left+=1
+            
+            output = max(output,(right-left+1))
         return output
 
 
+            
+            
+
+
+            
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
