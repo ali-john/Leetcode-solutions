@@ -1,30 +1,17 @@
 class Solution:
     def maxTwoEvents(self, events: List[List[int]]) -> int:
         events.sort()
-        dp = [[-1]*3 for _ in range(len(events))]
-
-        return self.find_events(events,0,0,dp)
-
-    def find_events(self,events,idx,cnt,dp):
-        if cnt==2 or idx>=len(events):
-            return 0
+        n = len(events)
         
-        if dp[idx][cnt]==-1:
-            end = events[idx][1]
-            lo,hi = idx+1,len(events)-1
-            while lo<hi:
-                mid = lo+((hi-lo)>>1)
-                if events[mid][0]>end:
-                    hi = mid
-                else:
-                    lo = mid+1
-            include = events[idx][2] + (self.find_events(events,lo,cnt+1,dp)
-            if lo<len(events) and events[lo][0]>end
-            else 0
-            )
-
-            exclude = self.find_events(events,idx+1,cnt,dp)
-            dp[idx][cnt] = max(include,exclude)
-
-        return dp[idx][cnt]
-
+        heap = []
+        max_val = 0
+        max_sum = 0
+        for event in events:
+            while heap and heap[0][0]<event[0]:
+                max_val = max(max_val,heap[0][1])
+                heapq.heappop(heap)
+            
+            max_sum = max(max_sum,max_val+event[2])
+            heapq.heappush(heap,(event[1],event[2]))
+        return max_sum
+                
