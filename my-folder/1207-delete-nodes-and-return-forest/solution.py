@@ -6,14 +6,15 @@
 #         self.right = right
 class Solution:
     def delNodes(self, root: Optional[TreeNode], to_delete: List[int]) -> List[TreeNode]:
+        
         output = []
         to_delete = set(to_delete)
-        def dfs(root,parent):
-            if not root:
-                return None
-            
-            left = dfs(root.left,root)
-            right = dfs(root.right,root)
+        def solve(root,parent):
+            if root is None:
+                return 
+            left = solve(root.left,root)
+            right = solve(root.right,root)
+
             if root.val in to_delete:
                 if left is not None:
                     output.append(left)
@@ -21,16 +22,15 @@ class Solution:
                     output.append(right)
                 if parent is not None:
                     if parent.left==root:
-                        parent.left=None
+                        parent.left = None
                     else:
-                        parent.right= None
-                
+                        parent.right = None
             else:
                 return root
-        r = dfs(root,None)
-        if r is not None:
-            output.append(r)
+            
+        solve(root,None)
+        if root.val not in to_delete:
+            output.append(root)
         return output
 
-
-
+            
