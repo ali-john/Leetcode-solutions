@@ -7,4 +7,6 @@ def renameColumns(students: pd.DataFrame) -> pd.DataFrame:
         'last': 'last_name',
         'age': 'age_in_years'
     }
-    return students.rename(columns=dict)
+    #return students.rename(columns=dict)
+    students.rename(columns=dict,inplace=True)
+    return students
