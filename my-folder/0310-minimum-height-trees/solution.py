@@ -10,12 +10,12 @@ class Solution:
             graph[node2].append(node1)
             degrees[node1]+=1
             degrees[node2]+=1
-        print(degrees)
         # store all leaf nodes
         sources = []
         for i in range(len(degrees)):
             if degrees[i]==1: 
                 sources.append(i)
+        
         total_nodes = n
         while total_nodes>2:
             leaves = len(sources)
