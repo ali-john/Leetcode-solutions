@@ -21,10 +21,7 @@ class Solution:
             if node not in visited:
                 visited.add(node)
         if len(visited)==total:
-            ans = 0
-            for time in total_times:
-                ans = max(ans,time)
-            return ans
+            return max(total_times)
         else:
             return -1
                 
