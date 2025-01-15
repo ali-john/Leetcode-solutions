@@ -1,24 +1,25 @@
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        
         n = len(nums)
+        memo = {}
         
-        @cache
-        def solve(index,expression):
+        def dp(i,exp):
+            if i>=n: return 0
+            if i==n-1:
+                count = 0
+                if exp + nums[i] == target: count+=1
+                if exp - nums[i] == target: count+=1
+                return count
             
-            if index>=n: return 0
-            if index==n-1:
-                expression1 = expression + nums[index]
-                expression2 = expression - nums[index]
-                if expression1==target and expression2==target:
-                    return 2
-                elif expression1==target or expression2==target: return 1
-                else: return 0
-            negatives = solve(index+1,expression - nums[index])
-            positives = solve(index+1,expression + nums[index])
-            return positives+negatives
+            if (i,exp) in memo: return memo[(i,exp)]
+            positive = dp(i+1,exp + nums[i])
+            negative = dp(i+1,exp - nums[i])
+            memo[(i,exp)] = positive + negative
+            return memo[(i,exp)]
+        return dp(0,0)
         
-        return solve(0,0)
 
+
+        
 
 
