@@ -34,6 +34,7 @@ class Solution:
         for edge in edges:
             if not uf.union(*edge):
                 return edge
+                
  
         # previous solution
         # graph = defaultdict(list)
