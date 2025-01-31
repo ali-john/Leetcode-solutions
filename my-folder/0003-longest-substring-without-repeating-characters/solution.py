@@ -1,24 +1,19 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        table = defaultdict(int)
+        n = len(s)
+        left = 0
+        right = 0
 
-        window_start = 0
-        window_end = 0
-        hash_table= {}
-        output = float("-inf")
-        if len(s)==0:
-            return 0
-        while window_end<len(s):
-            present_chr = s[window_end]
+        ans = 0
+        while right<n:
+            table[s[right]]+=1
 
-            if present_chr in hash_table:
-                window_start = max(window_start,hash_table[present_chr]+1)
-            
-            hash_table[present_chr] = window_end
-            output = max(output, (window_end-window_start)+1)
-            window_end+=1
-        return output
-
-           
-
-            
-
+            while left<=right and table[s[right]]>1:
+                table[s[left]]-=1
+                if table[s[left]]==0:
+                    del table[s[left]]
+                left+=1
+            ans = max(ans,(right-left+1))
+            right+=1
+        return ans
