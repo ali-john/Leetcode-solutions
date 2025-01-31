@@ -1,48 +1,33 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-
-        def TwoSum(target,start):
-            
-            end = len(nums)-1
-
-            while start<end:
-                total = nums[start]+nums[end]
-
-                if total ==target:
-                    triplets.append([-target,nums[start],nums[end]])
-                    start+=1
-                    end-=1
-                
-                    while start<end and nums[start] == nums[start-1]:
-                        start+=1
-                    while start<end and nums[end]==nums[end+1]:
-                        end-=1
-
-                elif total>target:
-                    end-=1
-                else:
-                    start+=1
-            return
-
+        n = len(nums)
+        table = defaultdict(int)
         nums = sorted(nums)
-        triplets = []
-        for i in range(len(nums)):
-            if i>0 and nums[i]==nums[i-1]:
-                continue # skip duplicates
-            TwoSum(-nums[i],i+1)
-        return triplets
+        output = []
 
+
+        def two_sum(target,z_index):
+            left = z_index
+            right = n - 1
+
+            while left<right:
+                total = nums[left] + nums[right]
+                if total == target:
+                    output.append([nums[left],nums[right],-target])
+
+                    left+=1
+                    right-=1
+                    while left<right and nums[left]==nums[left-1]: left+=1
+                    while left<right and nums[right]==nums[right+1]: right-=1
+                elif total>target:
+                    right-=1
+                else: left+=1
+            return
+        
+        for i in range(n):
+            if i>0 and nums[i]==nums[i-1]: continue
+            two_sum(-nums[i],i+1)
+        return output
         
         
-    
 
-
-
-
-
-
-        
-
-
-
-        
