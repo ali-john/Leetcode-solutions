@@ -2,24 +2,21 @@ class Solution:
     def assignElements(self, groups: List[int], elements: List[int]) -> List[int]:
         n = len(groups)
         ans = [-1]*n
-
-        elements_index = defaultdict(int)
+        index_map = defaultdict(int)
         for i,num in enumerate(elements):
-            if num not in elements_index:
-                elements_index[num] = i
+            if num not in index_map:
+                index_map[num] = i
         
         for i,num in enumerate(groups):
-            prev_index = float('inf')
-
-            for j in range(1,int(num**0.5)+1):
-                if num%j == 0:
-                    if j in elements_index: prev_index = min(prev_index,elements_index[j])
-                    if (num//j) in elements_index:
-                        prev_index = min(prev_index,elements_index[num//j])
-            
-            if prev_index!= float('inf'):
-                ans[i] = prev_index
-        
+            divisor = 1
+            index = float("inf")
+            for divisor in range(1, int(num**0.5)+1):
+                if num%divisor==0:
+                    if divisor in index_map:
+                        index = min(index,index_map[divisor])
+                    if (num//divisor) in index_map:
+                        index = min(index,index_map[num//divisor])
+            if index!=float("inf"):
+                ans[i] = index
         return ans
-
-
+        
