@@ -16,9 +16,6 @@ class Solution:
         #print(table)
         for i in range(n):
             for j in range(n):
-                if i-j<=0:
-                    new_mat[i][j] = table[i-j].pop(0)
-                else:
-                    new_mat[i][j] = table[i-j].pop(0)
+                new_mat[i][j] = table[i-j].pop(0)
         return new_mat
 
