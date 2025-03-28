@@ -3,9 +3,8 @@ class Solution:
         n = len(s)
         prefix, _, suffix = p.partition("*")
         index = s.find(prefix)
-        if index==-1:
-            return False
+        if index == -1: return False
         else:
-            extra = s[index+len(prefix):]
+            extra = s[index+len(prefix): ]
             return suffix in extra
             
