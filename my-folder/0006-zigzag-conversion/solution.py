@@ -1,20 +1,39 @@
 class Solution:
-    def convert(self, s: str, n: int) -> str:
-        if n==1 or n>=len(s):
+    def convert(self, s: str, r: int) -> str:
+        n =len(s)
+
+        if r == 1:
             return s
-        rows = [[] for _ in range(n)]
-        index,direction = 0,1
-        for char in s:
-            rows[index].append(char)
-            if index==0:
-                direction= 1
-            elif index==n-1:
-                direction = -1
-            
-            index+=direction
-        
+        hold = [[] for _ in range(r)]
+
+        setter = 0
+
+        direction = 1
         for i in range(n):
-            rows[i] = ''.join(rows[i])
-        
-        return ''.join(rows)
+
+            if setter <= 0:
+                direction = 1
+                setter = 0
+            elif setter == r - 1:
+                direction = -1
                 
+            
+            hold[setter].append(s[i])
+            setter+= direction
+        
+        
+        ans = ''
+        for i in range(r):
+            row = ''.join(hold[i])
+            ans+=row
+        
+        return ans
+        
+
+            
+
+            
+
+
+
+
