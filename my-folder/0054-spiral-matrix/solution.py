@@ -2,69 +2,37 @@ class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         m = len(matrix)
         n = len(matrix[0])
+
+        directions = [[0,1], [1,0], [0,-1], [-1,0]] # right, down, left, up
+        visited = set()
+
+
         output = []
-        rows = []
-        cols = []
-        row_inc = False
-        col_inc = True
-        row_dec = False
-        col_dec = False
-        row = 0
-        col = 0
+        i, j = 0 , 0
 
-        while len(output)!= m*n:
-            if col_inc:
-                if row not in rows:
-                    while col<n and col not in cols:
-                        output.append(matrix[row][col])
-                        col+=1
-                rows.append(row)
-                col_inc = False
-                row_inc = True
-            elif row_inc:
-                col = col-1
-                row+=1
-                if col not in cols:
-                    while row<m and row not in rows:
-                        output.append(matrix[row][col])
-                        row+=1   
-                cols.append(col)
-                row_inc = False
-                col_dec = True
-            elif col_dec:
-                row-=1
-                col-=1
-                if row not in rows:
-                    while col>=0 and col not in cols:
-                        output.append(matrix[row][col])
-                        col-=1 
-                rows.append(row)
-                col_dec = False
-                row_dec = True
-            elif row_dec:
-                col+=1
-                row-=1
-                if col not in cols:
-                    while row>=0 and row not in rows:
-                        output.append(matrix[row][col])
-                        row-=1
-                cols.append(col)
-                col+=1
-                row+=1
-                row_dec = False
-                col_inc = True
+        index = 0
+
+
+        for _ in range(m*n):
+            output.append(matrix[i][j])
+            visited.add((i,j))
+            next_row = i + directions[index][0]
+            next_col = j + directions[index][1]
+
+            if (next_row < 0 or next_row >= m or next_col < 0 or next_col >= n or (next_row, next_col) in visited): 
+                index = (index+1) % 4
+
+            i+= directions[index][0]
+            j+=directions[index][1]
         return output
-                
-
-
-
-
-                    
-
-
-                
-
-
-
-
         
+            
+                
+
+
+
+
+            
+
+
+
