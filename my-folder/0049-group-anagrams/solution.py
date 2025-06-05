@@ -1,28 +1,20 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        
+        n = len(strs)
+        table = defaultdict()
         output = []
-        index = 0
-        table = {}
-        for i in range(len(strs)):
-            string = ''.join(sorted(strs[i]))
-            if string in table:
-                ind = table[string]
-                output[ind].append(strs[i])
+
+        for st in strs:
+            m = "".join(sorted(st))
+            if m in table:
+                output[table[m]].append(st)
             else:
-                table[string] = index
-                index = index+1
-                l = []
-                l.append(strs[i])
-                output.append(l)
+                table[m] = len(output)
+                output.append([st])
+        
         return output
 
 
-
         
-
-
-
-
-
-
         
