@@ -1,21 +1,23 @@
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
-        out = dict()
-        s_list = s.split()
-        if len(s_list)!= len(pattern):
-            return False
+        s_l = list(s.split(" "))
+        p_l = [char for char in pattern]
 
-        for i in range(len(pattern)):
-            a = pattern[i]
-            b = s_list[i]
-            if a in out:
-                val = out[a]
-                if val != b:
+        if len(s_l)!=len(p_l): return False
+
+        mapper = defaultdict()
+        inv_mapper = defaultdict()
+
+        for char1, word1 in zip(p_l,s_l):
+            if char1 in mapper:
+                if mapper[char1] != word1:
                     return False
-            else:
-                if b in out.values():
+            
+            if word1 in inv_mapper:
+                if inv_mapper[word1]!=char1:
                     return False
-                else:
-                    out[a] = b
-        return True
+            
+            mapper[char1] = word1
+            inv_mapper[word1] = char1
         
+        return True
