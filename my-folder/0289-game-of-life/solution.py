@@ -3,54 +3,56 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        row = len(board)  # 4
-        col = len(board[0])  # 3
-        changes = []
+        m = len(board)
+        n = len(board[0])
+        neighbours = [[1,0],[-1,0], [0,1],[0,-1], [1,1], [-1,-1], [-1,1], [1,-1]]
+        live = set()
+        dead = set()
 
-        for i in range(row):
-            for j in range(col):
-                val = board[i][j]
-                top_left = board[i-1][j-1] if (i-1) >= 0 and (j-1) >= 0 else 0
-                top = board[i-1][j] if (i-1) >= 0 else 0
-                top_right = board[i-1][j+1] if (i-1) >= 0 and (j+1) < col else 0
-                right = board[i][j+1] if (j+1) < col else 0
-                left = board[i][j-1] if (j-1) >= 0 else 0
-                bottom_left = board[i+1][j-1] if (i+1) < row and (j-1) >= 0 else 0
-                bottom = board[i+1][j] if (i+1) < row else 0
-                bottom_right = board[i+1][j+1] if (i+1) < row and (j+1) < col else 0
-                total = sum([
-                    top_left,
-                    top,
-                    top_right,
-                    right,
-                    left,
-                    bottom_left,
-                    bottom,
-                    bottom_right
-                ])
-                if val == 1:
-                    if total < 2:
-                        changes.append(((i, j), 0))
-                    elif total == 2 or total == 3:
-                        continue
-                    elif total > 3:
-                        changes.append(((i, j), 0))
-                elif val == 0:
-                    if total == 3:
-                        changes.append(((i, j), 1))
-
-        for ((i, j), val) in changes:
-            board[i][j] = val
-                    
-
-                
-
-
-
-
-
-
-
-
-
+        def is_valid(i,j):
+            return ( 0 <= i < m and 0 <= j < n)
         
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 1:
+                    live.add((i,j))
+                else:
+                    dead.add((i,j))
+        
+        # update live:
+        # -1 --> DEAD
+
+        for i, j in live:
+            nei = 0
+            for x,y in neighbours:
+                new_i, new_j = i + x, j+ y
+                if is_valid(new_i,new_j) and abs(board[new_i][new_j]) == 1:
+                    nei+=1
+            if nei < 2 or nei > 3:
+                board[i][j] = -1
+            elif nei == 2 or nei ==3:
+                continue
+
+        # update dead cells
+        for i, j in dead:
+            nei = 0
+            for x,y in neighbours:
+                new_i, new_j = i + x, j+ y
+                if is_valid(new_i,new_j) and abs(board[new_i][new_j]) == 1:
+                    nei+=1
+            if nei ==3:
+                board[i][j] = -2
+        
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == -1:
+                    board[i][j] = 0
+                elif board[i][j] == -2:
+                    board[i][j] = 1
+            
+        
+
+
+
+
+
