@@ -1,11 +1,24 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        output = []
-        table = defaultdict(int)
+        table = defaultdict(list)
+
+        for i, num in enumerate(nums):
+            table[num].append(i)
         
-        for i,num in enumerate(nums):
-            if target - num in table:
-                output.append(i)
-                output.append(table[target - num])
-            table[num] = i
-        return output
+        ans = []
+
+        for i, num in enumerate(nums):
+            second = target - num
+            if second in table:
+                if second == num:
+                    if len(table[second]) > 1:
+                        ans.append(i)
+                        ans.append(table[num].pop())
+                        break
+                else:
+                    ans.append(i)
+                    ans.append(table[second].pop())
+                    break
+                
+        
+        return ans
