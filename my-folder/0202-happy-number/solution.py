@@ -1,31 +1,15 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-
-        def getSum(num):
-            total = 0
-
-            while num:
-                digit = num%10
-                total+= digit*digit
-                num = (num//10)
-            return total
-
-
-        slow = n
-        fast = n
+        s = set()
 
         while True:
-            slow = getSum(slow)
-            fast = getSum(getSum(fast))
-
-            if fast==slow:
-                break
-        return slow==1
+            digits = [int(digit) for digit in str(n)]
+            n = sum([digit**2 for digit in digits])
+            if n == 1:
+                return True
+            if n in s:
+                return False
+            s.add(n)
         
-
-        
-
-
-
-
+        return True
         
