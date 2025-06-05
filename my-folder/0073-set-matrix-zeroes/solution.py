@@ -3,9 +3,10 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
+
         m = len(matrix)
         n = len(matrix[0])
-
+        
         indices = set()
 
         for i in range(m):
@@ -13,13 +14,26 @@ class Solution:
                 if matrix[i][j] == 0:
                     indices.add((i,j))
         
+
+        
         for index in indices:
-            row,col = index
-            for i in range(len(matrix[0])):
+            row, col = index
+            # set row to 0
+            for i in range(n):
                 matrix[row][i] = 0
-            # set all column to 0:
-            for i in range(len(matrix)):
+            # set cols to 0
+
+            for i in range(m):
                 matrix[i][col] = 0
+
+
+        # for index in indices:
+        #     row,col = index
+        #     for i in range(len(matrix[0])):
+        #         matrix[row][i] = 0
+        #     # set all column to 0:
+        #     for i in range(len(matrix)):
+        #         matrix[i][col] = 0
 
             
         
