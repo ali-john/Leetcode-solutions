@@ -1,27 +1,23 @@
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
+        n = len(nums)
+
         output = []
+
         i = 0
-        while(i<len(nums)):
+        while i < n:
             start = i
-            while i+1<len(nums) and nums[i+1]==nums[i]+1:
+            while start+1 < n and nums[start+1] == nums[start]+1:
+                start+=1
+            
+            if start == i:
+                output.append(str(nums[i]))
                 i+=1
-            
-            if start==i:
-                output.append(f'{nums[i]}')
             else:
-                output.append(f'{nums[start]}->{nums[i]}')
+                output.append(f'{nums[i]}->{nums[start]}')
+                i = start+1
             
-            i+=1
+        
         return output
 
-    
-    
 
-                    
-
-
-
-
-
-        
