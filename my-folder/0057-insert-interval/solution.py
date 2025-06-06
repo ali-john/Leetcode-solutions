@@ -1,33 +1,41 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        n = len(intervals)
+        updated = []
 
+        if n == 0:
+            return [newInterval]
+        inserted = False
+        for i in range(n):
+            if intervals[i][0] >= newInterval[0] and not inserted:
+                updated.append(newInterval)
+                inserted = True
+            updated.append(intervals[i])
+        if not inserted: # it means insert at end ?
+            updated.append(newInterval)
+        
+        # merge intervals
+        n = len(updated)
+
+        output = []
         i = 0
-        merged = []
-        while i<len(intervals) and intervals[i][1]<newInterval[0]:
-            merged.append(intervals[i])
-            i+=1
-        
 
-        # merge all overlapping intervals
+        while i < n:
+            left = updated[i][0]
+            right = updated[i][1]
+            start = i + 1
 
-        while i<len(intervals) and intervals[i][0]<=newInterval[1]:
-            newInterval[0] = min(intervals[i][0],newInterval[0])
-            newInterval[1] = max(intervals[i][1],newInterval[1])
-            i+=1
+            while start < n and right >= updated[start][0]:
+                right = max(right, updated[start][1])
+                start+=1
+            
+            if start == i+1:
+                output.append(updated[i])
+                i+=1
+            else:
+                output.append([left,right])
+                i = start
+        return output
 
-        merged.append(newInterval)
-        while i<len(intervals):
-            merged.append(intervals[i])
-            i+=1
-        
-        return merged
-        
-
-
-        
-
-
-
-        
 
         
