@@ -1,35 +1,24 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        stack = deque()
+        n = len(tokens)
 
-        for i in range(len(tokens)):
-            if tokens[i] == '+':
-                num1 = stack.pop()
-                num2 = stack.pop()
-                ans = num1+num2
-                stack.append(ans)
+        operations = {
+            "+": lambda a,b : a + b,
+            "-": lambda a, b: a - b,
+            "*": lambda a, b: a*b,
+            "/": lambda a, b: int(a/b),
+        }
 
-            elif tokens[i] == '/':
-                num1 = stack.pop()
-                num2 = stack.pop()
-                ans = int(num2/num1)
-                stack.append(ans)
-            
-            elif tokens[i] == '-':
-                num1 = stack.pop()
-                num2 = stack.pop()
-                ans = num2 - num1
-                stack.append(ans)
+        stack = []
 
-            elif tokens[i] == '*':
-                num1 = stack.pop()
-                num2 = stack.pop()
-                ans = (num1*num2)
-                stack.append(ans)
-
-            else: # its a number
-                stack.append(int(tokens[i]))
-        return stack[-1]
-
-
+        for char in tokens:
+            if char in ["+","-","*","/"]:
+                second = stack.pop()
+                first = stack.pop()
+                operation = operations[char]
+                stack.append(operation(first,second))
+            else:
+                stack.append(int(char))
         
+        return int(stack[-1])
+
