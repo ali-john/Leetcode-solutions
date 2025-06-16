@@ -5,31 +5,21 @@
 #         self.next = next
 class Solution:
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
-        from queue import Queue
-        dummyNode = ListNode(0,head)
-        dummy = dummyNode
+        lesser = []
+        greater = []
 
-        if head is None or head.next is None:
-            return head
-        smaller = Queue()
-        larger = Queue()
         temp = head
-        while temp is not None:
-            if temp.val >= x:
-                larger.put(temp.val)
+        while temp:
+            if temp.val < x:
+                lesser.append(temp.val)
             else:
-                smaller.put(temp.val)
-            temp = temp.next if temp is not None else None
+                greater.append(temp.val)
+            temp = temp.next
         
         temp = head
-        while temp is not None:
-            if smaller.empty() is False:
-                temp.val = smaller.get()
-            else:
-                temp.val = larger.get()
-            temp = temp.next if temp is not None else None
+        while temp:
+            val = lesser.pop(0) if len(lesser)>0 else greater.pop(0)
+            temp.val = val
+            temp = temp.next
+        
         return head
-            
-
-        
-        
