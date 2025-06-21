@@ -5,42 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def preorder(self,node,output=[]):
-        if node is None:
-            output.append(None)
-            return
-        else:
-            output.append(node.val)
-            self.preorder(node.left,output)
-            self.preorder(node.right,output)
-
-    def anyorder(self,node,left=[]):
-        if node is None:
-            left.append(None)
-            return
-        else:
-            left.append(node.val)
-            self.anyorder(node.right,left)
-            self.anyorder(node.left,left)
-
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        if root.left is None and root.right is not None:
-            return False
-        elif root.left is not None and root.right is None:
-            return False
-        elif root.left is None and root.right is None:
-            return True
-        else:
-            left = []
-            right = []
-            rightN = root.right
-            leftN = root.left
-            self.preorder(rightN,output = right)
-            self.anyorder(leftN,left = left)
-            if left==right:
+
+        def isMirror(t1,t2):
+            if t1 is None and t2 is None:
                 return True
-                
-            else:
+            if t1 is None or t2 is None:
                 return False
+            
+            return ( (t1.val == t2.val) 
+                        and isMirror(t1.left, t2.right) and isMirror(t1.right,t2.left) 
+                    )
+        return isMirror(root, root)
         
-        
+            
+
+
+
+            
+
+
