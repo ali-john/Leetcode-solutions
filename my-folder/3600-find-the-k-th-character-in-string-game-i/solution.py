@@ -1,14 +1,15 @@
 class Solution:
     def kthCharacter(self, k: int) -> str:
-        def change(char):
-            return ''.join(chr(((ord(c) + 1) - 97) % 26 + 97) for c in char)
-            
-        
-        word = "a"
-        n = math.ceil(k**0.5)
-        while len(word)<k:
-            word+=change(word)
-        return word[k-1]
-
+        updated_str = "a"
+        ops = ceil(math.log(k,2)) + 1
+        while ops:
+            temp = []
+            for char in updated_str:
+                new_char = chr( ord(char) + 1) 
+                temp.append(new_char)
+            updated_str += "".join(temp)
+            ops-=1
+        #print(updated_str)
+        return updated_str[k-1]
 
 
