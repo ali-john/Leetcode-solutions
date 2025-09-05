@@ -20,5 +20,4 @@ class Solution:
                     ans.append(table[second].pop())
                     break
                 
-        
         return ans
