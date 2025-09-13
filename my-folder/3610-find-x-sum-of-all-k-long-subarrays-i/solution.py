@@ -1,32 +1,25 @@
-from collections import defaultdict, Counter
-from typing import List
-
 class Solution:
     def findXSum(self, nums: List[int], k: int, x: int) -> List[int]:
+        def x_sum(arr):
+            table = Counter(arr)
+            if len(arr) <=x:
+                return sum(arr)
+            sorted_list = sorted(table.items(), key = lambda x: (x[1], x[0]), reverse = True)
+            keep = set(elem for elem, _ in sorted_list[:x])
+    
+                # sum only elements in 'keep'
+            return sum(num for num in arr if num in keep)
+
         n = len(nums)
-        output = [0] * (n - k + 1)
-        table = defaultdict(int)
-        for i in range(k):
-            table[nums[i]]+=1
-        
-        def calculate():
-            most_common = sorted(table.items(), key = lambda item: (-item[1],-item[0]))
-            s = 0
-            for idx in range(min(x,len(most_common))):
-                s+= most_common[idx][0] * most_common[idx][1]
-            return s
-        
-        output[0] = calculate()
-        for i in range(1, n - k + 1):
-            incoming = nums[i+k-1]
-            outgoing = nums[i-1]
-            table[outgoing]-=1
-            if table[outgoing]==0:
-                del table[outgoing]
-            table[incoming]+=1
-        
-            output[i] = calculate()
-        
+        output = [0]*(n-k+1)
+        for i in range(n-k+1):
+            sub_arr = nums[i:i+k]
+            s = x_sum(sub_arr)
+            output[i] = s
         return output
+
+
+
+
 
 
