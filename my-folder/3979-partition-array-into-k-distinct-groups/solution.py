@@ -1,5 +1,5 @@
 class Solution:
-    def partitionArray(self, nums: List[int], k: int) -> bool:
+    def partitionArray(self, nums: List[int], k: int) -> bool:        
         n = len(nums)
         if k>n: return False
         groups = n%k
