@@ -6,46 +6,45 @@
 #         self.right = right
 class Solution:
     def minimumOperations(self, root: Optional[TreeNode]) -> int:
-        
-        q = [(root,0)]
-        swaps = 0
-        processed = set()
-        while q:
-            node,level = q.pop(0)
-            nodes = [node]
-            
-            if level not in processed:
-                j = 0
-                while j<len(q) and q[j][1]==level:
-                    node_next, _ = q[j]
-                    nodes.append(node_next)
-                    j+=1
-                nodes = [x.val for x in nodes]
-                #print(f'current node: {node.val}, nodes: {nodes}')
-                mapper = defaultdict(int)
-                inverse_mapper = defaultdict(int)
-                for i,val in enumerate(nodes):
-                    mapper[val] = i
-                    inverse_mapper[i] = val
+        levels = defaultdict(list)
 
-                sorted_nodes = sorted(nodes)
-                #print(f'sorted==nodes: {sorted_nodes==nodes}')
-                if sorted_nodes!=nodes:
-                    for i in range(len(sorted_nodes)):
-                        value = sorted_nodes[i]
-                        if mapper[value]!=i:
-                            prev_index = mapper[value]
-                            mapper[value] = i
-                            curr = inverse_mapper[i]
-                            mapper[curr] = prev_index
-                            inverse_mapper[i] = value
-                            inverse_mapper[prev_index] = curr
-                            swaps+=1
-            if node.left: q.append((node.left,level+1))
-            if node.right: q.append((node.right,level+1))
-            processed.add(level)
-        
+        def build_levels(root, level):
+            queue = [(root,level)]
+            while queue:
+                node, level = queue.pop(0)
+                levels[level].append(node.val)
+                if node.left is not None:
+                    queue.append((node.left, level+1))
+                if node.right is not None:
+                    queue.append((node.right, level+1))
+            return 
+        build_levels(root,0)
+        swaps = 0
+        # process each level
+        for lvl, val in levels.items():
+            sorted_val = sorted(val)
+            actual_counter = {value : i for i,value in enumerate(val) }
+            updated_counter = {i: value for i, value in enumerate(val) }
+            for i, num in enumerate(sorted_val):
+                current_val = updated_counter[i]
+                if current_val != num:
+                    current_val_updated_index = actual_counter[num]
+                    updated_counter[current_val_updated_index] = current_val
+                    updated_counter[i] = num
+                    actual_counter[num] = i
+                    actual_counter[current_val] = current_val_updated_index
+                    swaps+=1
         return swaps
 
-                    
+                
 
+
+
+
+
+
+
+
+        
+        
+        
