@@ -10,4 +10,3 @@ class Solution:
             if start!=end:
                 return False
         return True
-
