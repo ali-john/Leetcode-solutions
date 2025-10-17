@@ -1,25 +1,54 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        output = ""
-        output_len = 0
         n = len(s)
+        ans = ""
+        ans_len = float('-inf')
+
+        # treat every index as stating point of palindrome
         for i in range(n):
-            # if n is odd:
-            l,r = i, i 
-            while l>=0 and r<n and s[l]==s[r]:
-                if (r-l+1)>output_len:
-                    output = s[l:r+1]
-                    output_len = (r-l+1)
+            # if odd length
+            l,r = i, i
+            while l >= 0 and r < n and s[l] == s[r]:
+                if (r-l + 1) > ans_len:
+                    ans_len = (r-l + 1)
+                    ans = s[l:r+1]
                 l-=1
                 r+=1
             
-            # odd case:
-            l,r = i, i+1
-            while l>=0 and r<n and s[l]==s[r]:
-                if (r-l+1)>output_len:
-                    output = s[l:r+1]
-                    output_len = (r-l+1)
+            # if even
+            l ,r = i,  i + 1
+            while l >= 0 and r < n and s[l] == s[r]:
+                if (r-l + 1) > ans_len:
+                    ans_len = (r-l + 1)
+                    ans = s[l:r+1]
                 l-=1
                 r+=1
-        return output
+        return ans
+
+            
+
+
+
+
+
+
+
+
+
+
+        # n = len(s)
+        # if n == 1: return s
+        # ans = float('-inf')  
+        # output = s[0]      
+        # for i in range(n):
+        #     for j in range(i+1,n):
+        #         substr = s[i:j+1]
+        #         if substr == substr[::-1]:
+        #             if len(substr) > ans:
+        #                 ans = len(substr)
+        #                 output = substr
+        # return output
+
+
+
 
