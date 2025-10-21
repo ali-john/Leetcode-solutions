@@ -1,32 +1,34 @@
 class Solution:
-    def minTimeToReach(self, mt: List[List[int]]) -> int:
-        def isvalid(nx, ny):
-                return 0 <= nx < len(mt) and 0 <= ny < len(mt[0])
-        
-        n = len(mt)
-        m = len(mt[0])
-        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
-        heap = [(0, 0, 0)]
-        visited = [[-1] * m for _ in range(n)]
-        visited[0][0] = 0
-        
+    def minTimeToReach(self, mv: List[List[int]]) -> int:
+        n = len(mv)
+        m = len(mv[0])
+        distances = [[float('inf')]*m for _ in range(n)]
+        heap = [(0,0,0)]# cost, x, y
+
+        directions = [[1,0],[0,1],[-1,0],[0,-1]]
         while heap:
-            curr, x, y = heapq.heappop(heap)
-            
-            if x == n - 1 and y == m - 1:
-                return curr
-            
+            c, x, y = heapq.heappop(heap)
+
+            if x == n-1 and y == m-1:
+                return c
             for dx, dy in directions:
-                nx, ny = x + dx, y + dy
-                if isvalid(nx, ny):
-                    diff = mt[nx][ny] - curr
-                    if diff<=0:
-                        next_time = curr+1
+                new_x, new_y = x + dx, y + dy
+                if 0 <= new_x < n and 0 <= new_y < m:
+                    diff = mv[new_x][new_y] - c
+                    if diff <= 0:
+                        cost_to_enter = c + 1
                     else:
-                        next_time = diff+curr+1
-                        
-                    if visited[nx][ny]<0 or next_time < visited[nx][ny]:  
-                        visited[nx][ny] = next_time
-                        heapq.heappush(heap, (next_time, nx, ny))
-        
+                        cost_to_enter = c + 1 + diff
+
+                    if cost_to_enter < distances[new_x][new_y]:
+                            distances[new_x][new_y] = cost_to_enter
+                            heapq.heappush(heap, (cost_to_enter, new_x, new_y))
         return -1
+
+
+                
+                
+            
+            
+
+
