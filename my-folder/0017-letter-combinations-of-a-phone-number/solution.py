@@ -4,31 +4,16 @@ class Solution:
         '4':['g','h','i'], '5':['j','k','l'], '6':['m','n','o'],
         '7':['p','q','r','s'], '8':['t','u','v'], '9':['w','x','y','z']
         }
-        if len(digits)==0:
-            return []
-        output = []
-        def backtrack(index,combination):
-            if index==len(digits):
-                output.append(combination)
+
+        n = len(digits)
+        ans = []
+        def generate(index, comb):
+            if index == n:
+                ans.append(comb)
                 return
-
-            keys = table.get(digits[index])
-            for key in keys:
-                backtrack(index+1,combination+key)
-            
-        backtrack(0,'')
-        return output
-
-
-            
-
-            
+            letter = digits[index]
+            for char in table[letter]:
+                generate(index+1, comb+char)
         
-
-
-
-
-
-
-
-        
+        generate(0,'')
+        return ans
