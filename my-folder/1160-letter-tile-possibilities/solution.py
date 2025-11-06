@@ -1,19 +1,21 @@
 class Solution:
     def numTilePossibilities(self, tiles: str) -> int:
         n = len(tiles)
-        sequences = set()
 
+        gen = set()
         used = [False]*n
 
-
-        def generate(curr):
-            sequences.add(curr)
-
-            for pos,char in enumerate(tiles):
+        def generate(inp):
+            gen.add(inp)
+            for pos, char in enumerate(tiles):
                 if not used[pos]:
                     used[pos] = True
-                    generate(curr+char)
+                    generate(inp+char)
                     used[pos] = False
-        
         generate("")
-        return len(sequences) - 1
+        print(gen)
+        return len(gen) - 1
+
+
+
+
