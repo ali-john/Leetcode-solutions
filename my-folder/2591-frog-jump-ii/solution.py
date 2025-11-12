@@ -1,17 +1,34 @@
 class Solution:
-    def maxJump(self, nums: List[int]) -> int:
+    def maxJump(self, stones: List[int]) -> int:
+        n = len(stones)
+
+        def check(mid):
+            for i in range(1, n):
+                # one jump
+                if stones[i] - stones[i - 1] > mid: return False
+                # skip in between
+                if i > 1:
+                    if stones[i] - stones[i-2] > mid: return False
+            return True
         
-        max_jump = 0
-        even_prev = nums[0]
-        odd_prev = nums[1]
-        for i in range(len(nums)):
-            if not i%2: # if odd
-                max_jump = max(max_jump,abs(nums[i]-odd_prev))
-                odd_prev = nums[i]
+        lo, hi = 0, 10**9
+
+        while lo <= hi:
+            mid = ( lo + hi ) // 2
+            if check(mid):
+                hi = mid - 1
             else:
-                max_jump = max(max_jump,abs(nums[i]-even_prev))
-                even_prev = nums[i]
-        return max_jump
+                lo = mid + 1
+        return lo
         
+
+            
+
+
+
+
+
+
+
 
 
