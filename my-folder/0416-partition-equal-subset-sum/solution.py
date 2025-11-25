@@ -1,24 +1,38 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         n = len(nums)
-        total = sum(nums)
-        dp = [[False for _ in range(total+1)] for _ in range(n+1)]
-        def recur(nums,n,total):
-            for i in range(n+1):
-                dp[i][0] = True
+        target = sum(nums) // 2
 
-            for i in range(1,n+1):
-                for j in range(1,total+1):
-                    if nums[i-1]>j:
-                        dp[i][j] = dp[i-1][j]
-                    if nums[i-1]<=total:
-                        dp[i][j] = dp[i-1][j - nums[i-1]] or dp[i-1][j]
-            return dp[n][total]
+        @cache
+        def dp(i,total):
+            if total == 0:
+                return True
+            if i == n:
+                return False
+            
+            if total < 0 or total > target:
+                return False
+   
+            
+            if nums[i] <= total:
+                if dp(i+1, total - nums[i]):
+                    return True
+                return dp(i+1, total)
+                #take = dp(i+1, total - nums[i])
+                # dont_take = dp(i+1, total)
+                # ans = take or dont_take
+            else:
+                ans = dp(i+1, total)
+            return ans
         
-        if total%2!=0:
+        if sum(nums) % 2 != 0:
             return False
         else:
-            return recur(nums,n,total//2)
+            if dp(0, target):
+                return True
+            else:
+                return False
         
+                
+            
 
-        
