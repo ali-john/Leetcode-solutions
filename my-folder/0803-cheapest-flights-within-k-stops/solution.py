@@ -1,15 +1,22 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        prices = [float('inf')]*n
-        prices[src] = 0
-
-        for i in range(k+1):
-            tempPrices = prices.copy()
-
-            for s,d,p in flights:
-                if prices[s]==float('inf'): continue
-                if p + prices[s] < tempPrices[d]:
-                    tempPrices[d] = p + prices[s]
-            prices = tempPrices
+        graph = {i: [] for i in range(n)}
+        for from_, to_, price in flights:
+            graph[from_].append([to_, price])
         
-        return -1 if prices[dst]==float('inf') else prices[dst]
+        distances = [float('inf')]*n
+        distances[src] = 0
+        q = [(src,0)] # node, cost
+        steps = 0
+
+        while q and steps <= k:
+            
+            for i in range(len(q)):
+                node, cost = q.pop(0)
+                for nei, price in graph[node]:
+                    if ( price + cost ) > distances[nei]: continue
+                    distances[nei] = price + cost
+                    q.append((nei, price + cost))
+            
+            steps+=1
+        return distances[dst] if distances[dst]!=float('inf') else -1
