@@ -1,29 +1,14 @@
-#include<cstring>
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string forward = "";
-        string backward = "";
-        for (int i=0; i<s.size();i++)
-        {
-            if (isalnum(s[i]))
-            {
-                s[i] = tolower(s[i]);
-                forward+=s[i];
-            }
-        }
-        for (int i=forward.size()-1; i>=0;i--)
-        {
-            backward+=forward[i];
-        }
-        if (backward==forward)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
+        string filtered_str, reversed_str;
+        
+        for (auto ch:s){
+            if (isalnum(ch)) filtered_str+=tolower(ch);
         }
 
+        reversed_str.resize(filtered_str.size());
+        reverse_copy(filtered_str.begin(), filtered_str.end(), reversed_str.begin());
+        return reversed_str == filtered_str;
     }
 };
