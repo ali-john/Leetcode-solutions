@@ -1,26 +1,26 @@
 class Solution:
     def countPathsWithXorValue(self, grid: List[List[int]], k: int) -> int:
-        n = len(grid)
-        m = len(grid[0])
-        MOD = 1000000007
+        n, m = len(grid), len(grid[0])
+        MOD = 10**9 + 7
         
-        @cache
-        def solve(i,j,path_sum):
-            if i==n-1 and j==m-1 and grid[i][j]^path_sum ==k:
-                return 1
-
-            down_path = right_path = 0
-            if i+1<n:
-                down_path = solve(i+1,j,path_sum^ grid[i][j])
-            if j+1<m:
-                right_path = solve(i,j+1,path_sum^grid[i][j])
-
-            return (down_path + right_path)%MOD
+        dp = [[[-1]*16 for _ in range(m)] for _ in range(n)]
         
-        val = solve(0,0,0)
-        return val%MOD
+        def solve(i, j, path_xor):
+            path_xor ^= grid[i][j]
             
-
-
-
-
+            if i == n-1 and j == m-1:
+                return 1 if path_xor == k else 0
+            
+            if dp[i][j][path_xor] != -1:
+                return dp[i][j][path_xor]
+            
+            res = 0
+            if i + 1 < n:
+                res += solve(i+1, j, path_xor)
+            if j + 1 < m:
+                res += solve(i, j+1, path_xor)
+            
+            dp[i][j][path_xor] = res % MOD
+            return dp[i][j][path_xor]
+        
+        return solve(0, 0, 0)
