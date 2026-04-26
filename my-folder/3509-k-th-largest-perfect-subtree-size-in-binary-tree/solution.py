@@ -7,21 +7,18 @@
 class Solution:
     def kthLargestPerfectSubtree(self, root: Optional[TreeNode], k: int) -> int:
         lengths = []
-        
-        def getLengths(root):
-            if not root: return (0, True)
-            left_count, left_dec = getLengths(root.left)
-            right_count, right_dec = getLengths(root.right)
-            
+        def find_lengths(node):
+            if not node:
+                return (0, True)
+            left_len, left_dec = find_lengths(node.left)
+            right_len, right_dec = find_lengths(node.right)
             isPerfect = False
-            if ( left_count == right_count) and ( left_dec and right_dec):
-                lengths.append(left_count + right_count + 1)
+            if (left_len == right_len and (left_dec and right_dec)):
+                lengths.append(left_len + right_len + 1)
                 isPerfect = True
-            
-            return (left_count + right_count + 1, isPerfect)
-        
-        getLengths(root)
+            return (left_len + right_len + 1, isPerfect)
+        find_lengths(root)
         lengths.sort(reverse = True)
-        return lengths[k-1] if len(lengths)>= k else -1 
-
+        return lengths[k-1] if len(lengths) >= k else -1
+        
 
