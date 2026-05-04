@@ -6,7 +6,7 @@
 #         self.right = right
 class Solution:
     def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
-        table = defaultdict(list)
+        table = defaultdict(list) # [node, parent]
 
         for info in descriptions:
             node, child, is_left = info[0], info[1], info[2]
