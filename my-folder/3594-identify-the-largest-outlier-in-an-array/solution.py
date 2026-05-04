@@ -1,20 +1,14 @@
 class Solution:
     def getLargestOutlier(self, nums: List[int]) -> int:
-        n = len(nums)
-        elements = Counter(nums)
+        #total_sum = sum of (n-2) elements + sum_element + outlier
+        #total_sum - sum of (n-2) elements - sum_element = outlier
+        # sum_element = sum of (n-2) elements
+        # outlier = total_sum - 2 * sum element
         total = sum(nums)
-        ans = float('-inf')
-
-        for i in range(n):
-            new_sum = total - nums[i]
-            if new_sum%2!=0:
-                continue
-            else:
-                element = new_sum//2
-                if nums[i]==element and elements[element]>1:
-                    ans = max(ans,nums[i])
-                elif nums[i]!=element:
-                    if element in elements:
-                        ans = max(nums[i],ans)
-        return ans
-            
+        c = Counter(nums)
+        max_outlier = float('-inf')
+        for sum_element in c.keys():
+            outlier = total - 2*sum_element
+            if outlier in c and ( outlier!=sum_element or c[sum_element] > 1):
+                max_outlier = max(outlier, max_outlier)
+        return max_outlier
