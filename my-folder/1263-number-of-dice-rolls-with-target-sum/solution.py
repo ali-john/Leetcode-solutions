@@ -1,16 +1,27 @@
 class Solution:
     def numRollsToTarget(self, n: int, k: int, target: int) -> int:
-        MOD = 1000000007
-        memo = {}
-        def solve(rem,s):
-            if rem<0 or s>target: return 0
-            if (rem,s) in memo: return memo[(rem,s)]
+        MOD = 10**9 + 7
 
-            if rem==0 and s==target: return 1
+        memo = {}
+        def dp(rem, curr_sum):
+            if (rem,curr_sum) in memo:
+                return memo[(rem, curr_sum)]
+            
+            if rem < 0 or curr_sum > target:
+                return 0
+            
+            if rem == 0 and curr_sum == target:
+                return 1
+            
             ans = 0
-            for i in range(1,k+1):
-                ans+=solve(rem-1,s+i)
-            memo[(rem,s)] = ans % MOD
-            return memo[(rem,s)]
-        return solve(n,0) % MOD
+            for state in range(1, k+1):
+                ans+= dp(rem - 1, curr_sum + state)
+            
+            memo[(rem, curr_sum)] = ans % MOD
+            return memo[(rem, curr_sum)]
+        
+        return dp(n, 0)
+        
+
+        
 
