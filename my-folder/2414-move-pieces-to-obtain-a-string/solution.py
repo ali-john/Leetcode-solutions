@@ -1,50 +1,25 @@
 class Solution:
     def canChange(self, start: str, target: str) -> bool:
-        n = len(start)
-        counter_start = Counter(start)
-        counter_target = Counter(target)
+        start_q = []
+        target_q = []
 
-        if counter_start['L']!=counter_target['L']:
-            return False
-        if counter_start['R']!=counter_target['R']:
-            return False
+        for i,char in enumerate(start):
+            if char!= '_':
+                start_q.append((char,i))
+        for i,char in enumerate(target):
+            if char != "_":
+                target_q.append((char,i))
+        
+        if len(start_q)!= len(target_q): return False
+        while start_q:
+            start_char, start_index = start_q.pop(0)
+            target_char, target_index = target_q.pop(0)
 
-
-        ptr_start = 0
-        ptr_target = 0
-
-        while ptr_start<n and ptr_target<n:
-            if target[ptr_target]=='L':
-                while ptr_start<n:
-                    if start[ptr_start]=='L':
-                        break
-                    else:
-                        ptr_start+=1
-                if ptr_start>=n or ptr_start<ptr_target:
-                    return False
-                else:
-                    ptr_start+=1
-
-            elif target[ptr_target]=='R':
-                while ptr_start<n:
-                    if start[ptr_start]=='R':
-                        break
-                    else:
-                        ptr_start+=1
-                if ptr_start>=n or ptr_start>ptr_target:
-                    return False
-                else:
-                    ptr_start+=1
-            ptr_target+=1
-        if ptr_target<n and ptr_start>=n:
-            remaining = 0
-            while ptr_target<n:
-                if target[ptr_target]=='L' or target[ptr_target]=='R':
-                    remaining+=1
-                ptr_target+=1
-            if remaining:
+            if ( start_char != target_char or (start_char == 'L' and target_index > start_index) or (start_char == 'R' and target_index < start_index) ):
                 return False
-            else:
-                return True
-            
         return True
+
+
+
+
+        
